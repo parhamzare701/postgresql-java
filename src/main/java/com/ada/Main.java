@@ -1,6 +1,10 @@
 package com.ada;
 
+import java.lang.reflect.Type;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -21,6 +25,8 @@ public class Main {
                     .getConnection("jdbc:postgresql://localhost:5432/test_db",
                             "e.amini", "root");
             statement = connection.createStatement();
+            DateTimeFormatter date = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDateTime now = LocalDateTime.now();
 
             usersTable.createUsersTable(statement);
             booksTable.createBooksTable(statement);
@@ -31,6 +37,7 @@ public class Main {
             while (usersResultSet.next()) {
                 ids.add(usersResultSet.getInt("ID"));
             }
+
             booksTable.addBook(statement, "The Little Prince", ids.get(new Random().nextInt(ids.size())));
             booksTable.addBook(statement, "Night Flight", ids.get(new Random().nextInt(ids.size())));
 
@@ -46,7 +53,7 @@ public class Main {
             for (int i = 0; i < booksId.size(); i++) {
                 System.out.println(booksAssign.get(i));
                 System.out.println(booksId.get(i));
-                assignedUsers.addAssigned(statement, booksId.get(i), booksAssign.get(i));
+                assignedUsers.addAssigned(statement, booksId.get(i), booksAssign.get(i), date.format(now.plusDays(new Random().nextInt(20) + i)) );
             }
 
             statement.close();
