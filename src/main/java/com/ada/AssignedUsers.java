@@ -1,14 +1,18 @@
 package com.ada;
 
+import javax.print.DocFlavor;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class AssignedUsers {
     public void createAssignedUsersBook(Statement statement) throws SQLException {
         String sql = "CREATE TABLE ASSIGNEDUSERS " +
-                "(ID SERIAL PRIMARY KEY," +
-                "BOOKID INT NOT NULL," +
-                " USERID INT NOT NULL)";
+                "(ID SERIAL PRIMARY KEY NOT NULL UNIQUE ," +
+                "BOOKID int not null ," +
+                "USERID int not null ," +
+                "FOREIGN KEY (BOOKID) REFERENCES BOOKS(ID)," +
+                "FOREIGN KEY (USERID) REFERENCES USERS(ID))";
         statement.executeUpdate(sql);
     }
 
@@ -18,4 +22,5 @@ public class AssignedUsers {
         System.out.println(sql);
         statement.executeUpdate(sql);
     }
+
 }

@@ -5,9 +5,10 @@ import java.sql.*;
 public class BooksTable {
     public void createBooksTable(Statement statement) throws SQLException {
         String sql = "CREATE TABLE BOOKS " +
-                "(ID SERIAL PRIMARY KEY," +
-                "NAME TEXT NOT NULL, " +
-                "ASSIGNED INT NOT NULL)";
+                "(ID SERIAL PRIMARY KEY NOT NULL UNIQUE ," +
+                "NAME VARCHAR(50) NOT NULL, " +
+                "ASSIGNED INT," +
+                "FOREIGN KEY (ASSIGNED) REFERENCES USERS(ID))";
         statement.executeUpdate(sql);
     }
 
@@ -15,12 +16,5 @@ public class BooksTable {
         String sql = String.format("INSERT INTO BOOKS (NAME, ASSIGNED) VALUES ('%s', %d);",
                 name, assigned);
         statement.executeUpdate(sql);
-    }
-
-    public void addAssign(Statement statement, int rowNumber, String assigned) throws SQLException {
-        String sql =  String.format("UPDATE BOOKS SET ASSIGNED='%s' WHERE ID=%d", assigned , rowNumber);
-        int preparedStatement = statement.executeUpdate(sql , rowNumber);
-        System.out.println(rowNumber);
-        System.out.println(assigned);
     }
 }

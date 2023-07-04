@@ -7,8 +7,8 @@ public class UsersTable {
     public void createUsersTable(Statement statement) throws SQLException {
         String sql = "CREATE TABLE USERS " +
                 "(" + "ID SERIAL PRIMARY KEY," +
-                " NAME  TEXT NOT NULL, " +
-                " AGE INT NOT NULL)";
+                " NAME  VARCHAR(25) NOT NULL , " +
+                " AGE INT NOT NULL )";
         statement.executeUpdate(sql);
     }
 

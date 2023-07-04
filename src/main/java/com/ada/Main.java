@@ -12,9 +12,9 @@ public class Main {
         BooksTable booksTable = new BooksTable();
         AssignedUsers assignedUsers = new AssignedUsers();
 
-        ArrayList<Integer> ids = new ArrayList<Integer>();
-        ArrayList<Integer> booksAssign = new ArrayList<Integer>();
-        ArrayList<Integer> booksId = new ArrayList<Integer>();
+        ArrayList<Integer> ids = new ArrayList();
+        ArrayList<Integer> booksAssign = new ArrayList();
+        ArrayList<Integer> booksId = new ArrayList();
         try {
             Class.forName("org.postgresql.Driver");
             connection = DriverManager
@@ -24,10 +24,9 @@ public class Main {
 
             usersTable.createUsersTable(statement);
             booksTable.createBooksTable(statement);
-            assignedUsers.createAssignedUsersBook(statement);
 
             usersTable.addUser(statement, "hosein", 30);
-            usersTable.addUser(statement, "parham", 15);
+            usersTable.addUser(statement, "parham", 2);
             ResultSet usersResultSet = statement.executeQuery("select * from USERS;");
             while (usersResultSet.next()) {
                 ids.add(usersResultSet.getInt("ID"));
@@ -35,11 +34,15 @@ public class Main {
             booksTable.addBook(statement, "The Little Prince", ids.get(new Random().nextInt(ids.size())));
             booksTable.addBook(statement, "Night Flight", ids.get(new Random().nextInt(ids.size())));
 
+            assignedUsers.createAssignedUsersBook(statement);
+
+
             ResultSet bookResultSet = statement.executeQuery("select * from BOOKS;");
             while (bookResultSet.next()) {
                 booksAssign.add(bookResultSet.getInt("ASSIGNED"));
                 booksId.add(bookResultSet.getInt("ID"));
             }
+
             for (int i = 0; i < booksId.size(); i++) {
                 System.out.println(booksAssign.get(i));
                 System.out.println(booksId.get(i));
